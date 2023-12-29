@@ -1,0 +1,14 @@
+dependencies {
+    implementation(project(':blogsearcher-domain'))
+    implementation(project(':blogsearcher-application'))
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

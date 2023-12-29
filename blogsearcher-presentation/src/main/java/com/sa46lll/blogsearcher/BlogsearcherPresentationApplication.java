@@ -1,13 +1,13 @@
-package com.sa46lll.searcher;
+package com.sa46lll.blogsearcher;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BlogSearcherApplication {
+public class BlogsearcherPresentationApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BlogSearcherApplication.class, args);
+        SpringApplication.run(BlogsearcherPresentationApplication.class, args);
     }
 
 }

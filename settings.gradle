@@ -1,1 +1,5 @@
 rootProject.name = 'searcher'
+include 'blogsearcher-domain'
+include 'blogsearcher-application'
+include 'blogsearcher-presentation'
+include 'blogsearcher-infrastructure'

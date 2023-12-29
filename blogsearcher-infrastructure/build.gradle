@@ -1,0 +1,14 @@
+dependencies {
+    implementation(project(':blogsearcher-domain'))
+    implementation(project(':blogsearcher-application'))
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

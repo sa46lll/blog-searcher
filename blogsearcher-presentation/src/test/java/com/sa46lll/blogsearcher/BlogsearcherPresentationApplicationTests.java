@@ -1,10 +1,10 @@
-package com.sa46lll.searcher;
+package com.sa46lll.blogsearcher;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BlogSearcherApplicationTests {
+class BlogsearcherPresentationApplicationTests {
 
     @Test
     void contextLoads() {
