@@ -7,13 +7,13 @@ import com.sa46lll.blogsearcher.port.out.WriteSearchKeywordPersistencePort;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WriteSearchKeywordService implements UpdateSearchKeywordUseCase {
+public class SearchKeywordCommandService implements UpdateSearchKeywordUseCase {
 
     private final ReadSearchKeywordPersistencePort readSearchKeywordPersistencePort;
     private final WriteSearchKeywordPersistencePort writeSearchKeywordPersistencePort;
 
-    public WriteSearchKeywordService(final WriteSearchKeywordPersistencePort writeSearchKeywordPersistencePort,
-                                     final ReadSearchKeywordPersistencePort readSearchKeywordPersistencePort) {
+    public SearchKeywordCommandService(final WriteSearchKeywordPersistencePort writeSearchKeywordPersistencePort,
+                                       final ReadSearchKeywordPersistencePort readSearchKeywordPersistencePort) {
         this.writeSearchKeywordPersistencePort = writeSearchKeywordPersistencePort;
         this.readSearchKeywordPersistencePort = readSearchKeywordPersistencePort;
     }

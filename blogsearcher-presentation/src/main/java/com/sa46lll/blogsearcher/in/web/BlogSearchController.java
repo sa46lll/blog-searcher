@@ -1,9 +1,9 @@
 package com.sa46lll.blogsearcher.in.web;
 
-import com.sa46lll.blogsearcher.dto.BlogSearchDto;
-import com.sa46lll.blogsearcher.dto.BlogSearchResponse;
+import com.sa46lll.blogsearcher.dto.GetBlogSearchDto;
+import com.sa46lll.blogsearcher.dto.GetBlogSearchResponse;
 import com.sa46lll.blogsearcher.dto.ApiResponse;
-import com.sa46lll.blogsearcher.port.in.BlogSearchUseCase;
+import com.sa46lll.blogsearcher.port.in.GetBlogSearchUseCase;
 import jakarta.websocket.server.PathParam;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/search")
 public class BlogSearchController {
 
-    private final BlogSearchUseCase blogSearchUsecase;
+    private final GetBlogSearchUseCase getBlogSearchUsecase;
 
-    public BlogSearchController(final BlogSearchUseCase blogSearchUsecase) {
-        this.blogSearchUsecase = blogSearchUsecase;
+    public BlogSearchController(final GetBlogSearchUseCase getBlogSearchUsecase) {
+        this.getBlogSearchUsecase = getBlogSearchUsecase;
     }
 
     @GetMapping
-    public ApiResponse<List<BlogSearchResponse>> search(@RequestHeader(value = "X-USER-ID", defaultValue = "1") final Long memberId,
-                                                        @PathParam("keyword") String keyword) {
+    public ApiResponse<List<GetBlogSearchResponse>> search(@RequestHeader(value = "X-USER-ID", defaultValue = "1") final Long memberId,
+                                                           @PathParam("keyword") String keyword) {
         return ApiResponse.ok(
-                blogSearchUsecase.search(new BlogSearchDto(keyword, memberId)));
+                getBlogSearchUsecase.search(new GetBlogSearchDto(keyword, memberId)));
     }
 }

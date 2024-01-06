@@ -1,6 +1,6 @@
 package com.sa46lll.blogsearcher.dto;
 
-public record BlogSearchDto(
+public record GetBlogSearchDto(
         String keyword,
         Long memberId
 ) {

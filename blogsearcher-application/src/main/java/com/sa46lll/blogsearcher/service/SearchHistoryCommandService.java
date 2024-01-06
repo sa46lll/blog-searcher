@@ -8,11 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class SaveSearchHistoryService implements SaveSearchHistoryUseCase {
+public class SearchHistoryCommandService implements SaveSearchHistoryUseCase {
 
     private final WriteSearchHistoryPersistencePort writeSearchHistoryPersistencePort;
 
-    public SaveSearchHistoryService(final WriteSearchHistoryPersistencePort writeSearchHistoryPersistencePort) {
+    public SearchHistoryCommandService(final WriteSearchHistoryPersistencePort writeSearchHistoryPersistencePort) {
         this.writeSearchHistoryPersistencePort = writeSearchHistoryPersistencePort;
     }
 

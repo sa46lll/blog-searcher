@@ -3,9 +3,9 @@ package com.sa46lll.blogsearcher.in.web;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import com.sa46lll.blogsearcher.dto.BlogSearchDto;
-import com.sa46lll.blogsearcher.dto.BlogSearchResponse;
-import com.sa46lll.blogsearcher.port.in.BlogSearchUseCase;
+import com.sa46lll.blogsearcher.dto.GetBlogSearchDto;
+import com.sa46lll.blogsearcher.dto.GetBlogSearchResponse;
+import com.sa46lll.blogsearcher.port.in.GetBlogSearchUseCase;
 import java.util.List;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -28,14 +28,14 @@ class BlogSearchControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private BlogSearchUseCase blogSearchUsecase;
+    private GetBlogSearchUseCase getBlogSearchUsecase;
 
     @Test
     void 키워드로_블로그를_검색한다() throws Exception {
-        BlogSearchDto blogSearchDto = new BlogSearchDto("keyword", 1L);
-        when(blogSearchUsecase.search(blogSearchDto))
+        GetBlogSearchDto getBlogSearchDto = new GetBlogSearchDto("keyword", 1L);
+        when(getBlogSearchUsecase.search(getBlogSearchDto))
                 .thenReturn(List.of(
-                        new BlogSearchResponse(1L, "title", "keyword")
+                        new GetBlogSearchResponse(1L, "title", "keyword")
                 ));
 
         mockMvc.perform(get("/api/v1/search")
