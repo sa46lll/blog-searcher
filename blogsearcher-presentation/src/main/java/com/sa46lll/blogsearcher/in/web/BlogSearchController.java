@@ -1,5 +1,6 @@
 package com.sa46lll.blogsearcher.in.web;
 
+import com.sa46lll.blogsearcher.dto.BlogSearchDto;
 import com.sa46lll.blogsearcher.dto.BlogSearchResponse;
 import com.sa46lll.blogsearcher.dto.ApiResponse;
 import com.sa46lll.blogsearcher.port.in.BlogSearchUseCase;
@@ -21,8 +22,9 @@ public class BlogSearchController {
     }
 
     @GetMapping
-    public ApiResponse<List<BlogSearchResponse>> search(@RequestHeader(value = "X-USER-ID", defaultValue = "1") final Long userId,
+    public ApiResponse<List<BlogSearchResponse>> search(@RequestHeader(value = "X-USER-ID", defaultValue = "1") final Long memberId,
                                                         @PathParam("keyword") String keyword) {
-        return ApiResponse.ok(blogSearchUsecase.search(keyword));
+        return ApiResponse.ok(
+                blogSearchUsecase.search(new BlogSearchDto(keyword, memberId)));
     }
 }

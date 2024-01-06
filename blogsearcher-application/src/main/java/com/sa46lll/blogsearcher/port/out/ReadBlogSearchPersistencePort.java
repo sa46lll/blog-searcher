@@ -1,6 +1,6 @@
 package com.sa46lll.blogsearcher.port.out;
 
-import com.sa46lll.blogsearcher.Post;
+import com.sa46lll.blogsearcher.domain.Post;
 import java.util.List;
 
 public interface ReadBlogSearchPersistencePort {

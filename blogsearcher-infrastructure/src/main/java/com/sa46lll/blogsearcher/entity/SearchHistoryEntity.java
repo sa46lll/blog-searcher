@@ -19,10 +19,17 @@ public class SearchHistoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    @Column(name = "keyword")
     private String keyword;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private MemberEntity member;
+    @Column(name = "member_id")
+    private Long memberId;
+
+    protected SearchHistoryEntity() {
+    }
+
+    public SearchHistoryEntity(String keyword, Long memberId) {
+        this.keyword = keyword;
+        this.memberId = memberId;
+    }
 }

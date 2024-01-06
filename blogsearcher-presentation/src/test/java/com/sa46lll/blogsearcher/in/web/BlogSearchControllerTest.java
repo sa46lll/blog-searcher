@@ -3,6 +3,7 @@ package com.sa46lll.blogsearcher.in.web;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
+import com.sa46lll.blogsearcher.dto.BlogSearchDto;
 import com.sa46lll.blogsearcher.dto.BlogSearchResponse;
 import com.sa46lll.blogsearcher.port.in.BlogSearchUseCase;
 import java.util.List;
@@ -31,13 +32,14 @@ class BlogSearchControllerTest {
 
     @Test
     void 키워드로_블로그를_검색한다() throws Exception {
-        String keyword = "keyword";
-        when(blogSearchUsecase.search(keyword)).thenReturn(List.of(
-                new BlogSearchResponse(1L, "title", "keyword")
-        ));
+        BlogSearchDto blogSearchDto = new BlogSearchDto("keyword", 1L);
+        when(blogSearchUsecase.search(blogSearchDto))
+                .thenReturn(List.of(
+                        new BlogSearchResponse(1L, "title", "keyword")
+                ));
 
         mockMvc.perform(get("/api/v1/search")
-                        .param("keyword", keyword)
+                        .param("keyword", "keyword")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("요청에 성공했습니다."))

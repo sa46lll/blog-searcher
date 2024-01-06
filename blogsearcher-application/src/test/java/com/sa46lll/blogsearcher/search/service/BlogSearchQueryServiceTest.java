@@ -3,15 +3,19 @@ package com.sa46lll.blogsearcher.search.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.sa46lll.blogsearcher.Post;
+import com.sa46lll.blogsearcher.domain.Post;
+import com.sa46lll.blogsearcher.dto.BlogSearchDto;
 import com.sa46lll.blogsearcher.dto.BlogSearchResponse;
+import com.sa46lll.blogsearcher.event.BlogSearchEvent;
 import com.sa46lll.blogsearcher.port.out.ReadBlogSearchPersistencePort;
-import com.sa46lll.blogsearcher.port.out.WriteBlogSearchPersistencePort;
+import com.sa46lll.blogsearcher.port.out.WriteSearchHistoryPersistencePort;
 import com.sa46lll.blogsearcher.service.BlogSearchQueryService;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +24,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 @ExtendWith(MockitoExtension.class)
 class BlogSearchQueryServiceTest {
@@ -28,34 +33,39 @@ class BlogSearchQueryServiceTest {
     private BlogSearchQueryService sut;
 
     @Mock
-    private WriteBlogSearchPersistencePort writeSearchPersistencePort;
+    private WriteSearchHistoryPersistencePort writeSearchPersistencePort;
 
     @Mock
     private ReadBlogSearchPersistencePort readSearchPersistencePort;
+
+    @Mock
+    private ApplicationEventPublisher applicationEventPublisher;
+
+    private BlogSearchDto blogSearchDto;
+
+    BlogSearchQueryServiceTest() {
+    }
+
+    @BeforeEach
+    void setUp() {
+        blogSearchDto = new BlogSearchDto("keyword", 1L);
+    }
 
     @Disabled
     @ParameterizedTest
     @ValueSource(strings = {" ", "  ", "\t", "\n"})
     void 검색어가_없으면_저장하지_않는다(String keyword) { // 제거 -> controller 이동 ( 클라이언트 입장에서 생길 수 있는 테스트 )
-        sut.search(keyword);
+        sut.search(blogSearchDto);
 
         verify(writeSearchPersistencePort, never()).save(any());
     }
 
     @Test
     @Disabled
-    void 검색어가_있으면_저장한다() {
-        sut.search("keyword");
-
-        verify(writeSearchPersistencePort).save(any());
-    }
-
-    @Test
-    @Disabled
     void 검색하면_검색_횟수가_증가한다() { // 검색어가 이미 저장된 내역이 있으면, 검색 횟수가 증가한다
-        sut.search("keyword");
+        sut.search(blogSearchDto);
 
-        verify(writeSearchPersistencePort).updateSearchCount(any());
+//        verify(writeSearchPersistencePort).updateSearchCount(any());
     }
 
     @Test
@@ -66,8 +76,17 @@ class BlogSearchQueryServiceTest {
         );
         when(readSearchPersistencePort.findByKeyword(any())).thenReturn(searchHistories);
 
-        List<BlogSearchResponse> keyword = sut.search("keyword");
+        List<BlogSearchResponse> keyword = sut.search(blogSearchDto);
 
         assertThat(keyword).hasSize(2);
+    }
+
+    @Test
+    void 키워드를_검색하면_검색_이벤트가_발생한다() {
+        BlogSearchEvent event = new BlogSearchEvent("keyword", 1L);
+
+        sut.search(blogSearchDto);
+
+        verify(applicationEventPublisher, times(1)).publishEvent(event);
     }
 }

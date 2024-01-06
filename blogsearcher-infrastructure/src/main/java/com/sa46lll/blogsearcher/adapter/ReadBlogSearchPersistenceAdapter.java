@@ -1,6 +1,6 @@
 package com.sa46lll.blogsearcher.adapter;
 
-import com.sa46lll.blogsearcher.Post;
+import com.sa46lll.blogsearcher.domain.Post;
 import com.sa46lll.blogsearcher.mapper.PostMapper;
 import com.sa46lll.blogsearcher.port.out.ReadBlogSearchPersistencePort;
 import com.sa46lll.blogsearcher.repository.PostRepository;

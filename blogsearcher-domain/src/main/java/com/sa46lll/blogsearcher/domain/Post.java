@@ -1,4 +1,4 @@
-package com.sa46lll.blogsearcher;
+package com.sa46lll.blogsearcher.domain;
 
 import java.lang.reflect.Member;
 

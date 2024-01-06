@@ -1,6 +1,6 @@
 package com.sa46lll.blogsearcher.dto;
 
-import com.sa46lll.blogsearcher.Post;
+import com.sa46lll.blogsearcher.domain.Post;
 
 public record BlogSearchResponse(
         Long id,
