@@ -2,9 +2,9 @@ package com.sa46lll.blogsearcher.domain;
 
 public class Member {
 
-    private final Long id;
-    private final String name;
-    private final String email;
+    private Long id;
+    private String name;
+    private String email;
 
     public Member(final Long id, final String name, final String email) {
         this.id = id;
@@ -12,8 +12,13 @@ public class Member {
         this.email = email;
     }
 
-    public static Member of(final Long id, final String name, final String email) {
-        return new Member(id, name, email);
+    public Member(final String name, final String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public static Member of(final String name, final String email) {
+        return new Member(name, email);
     }
 
     public Long getId() {

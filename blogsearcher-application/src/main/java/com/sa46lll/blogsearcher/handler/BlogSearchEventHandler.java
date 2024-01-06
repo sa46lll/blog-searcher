@@ -27,11 +27,11 @@ public class BlogSearchEventHandler {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleBlogSearchEvent(final BlogSearchEvent blogSearchEvent) {
+        System.out.println("Blog search event: " + blogSearchEvent.keyword());
+
         saveSearchHistoryUseCase.save(
                 new WriteSearchHistoryCommand(blogSearchEvent.keyword(), blogSearchEvent.memberId()));
 
         updateSearchKeywordUseCase.update(blogSearchEvent.keyword());
-
-        System.out.println("Blog search event: " + blogSearchEvent.keyword());
     }
 }

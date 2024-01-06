@@ -11,4 +11,8 @@ public class PostMapper {
     public static Post toDomain(final PostEntity postEntity) {
         return new Post(postEntity.getId(), postEntity.getTitle(), postEntity.getContent(), null);
     }
+
+    public static PostEntity toEntity(final Post post) {
+        return new PostEntity(post.getTitle(), post.getContent(), MemberMapper.toEntity(post.getMember()));
+    }
 }

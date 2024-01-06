@@ -32,6 +32,14 @@ public class PostEntity extends AuditEntity {
     @JoinColumn(name = "member_id")
     private MemberEntity member;
 
+    public PostEntity(final String title,
+                      final String content,
+                      final MemberEntity member) {
+        this.title = title;
+        this.content = content;
+        this.member = member;
+    }
+
     public Long getId() {
         return id;
     }

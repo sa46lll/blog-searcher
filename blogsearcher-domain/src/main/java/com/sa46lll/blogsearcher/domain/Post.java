@@ -1,7 +1,5 @@
 package com.sa46lll.blogsearcher.domain;
 
-import java.lang.reflect.Member;
-
 public class Post {
 
     private Long id;
@@ -11,6 +9,12 @@ public class Post {
 
     public Post(Long id, String title, String content, Member member) {
         this.id = id;
+        this.title = title;
+        this.content = content;
+        this.member = member;
+    }
+
+    public Post(String title, String content, Member member) {
         this.title = title;
         this.content = content;
         this.member = member;
