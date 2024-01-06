@@ -21,6 +21,13 @@ public class BlogSearchController {
         this.getBlogSearchUsecase = getBlogSearchUsecase;
     }
 
+    /**
+     * 블로그를 검색한다
+     *
+     * @param memberId
+     * @param keyword
+     * @return 블로그 검색 결과
+     */
     @GetMapping
     public ApiResponse<List<GetBlogSearchResponse>> search(@RequestHeader(value = "X-USER-ID", defaultValue = "1") final Long memberId,
                                                            @PathParam("keyword") String keyword) {
