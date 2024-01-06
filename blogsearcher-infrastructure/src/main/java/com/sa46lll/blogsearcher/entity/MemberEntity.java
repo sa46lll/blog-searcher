@@ -25,6 +25,9 @@ public class MemberEntity extends AuditEntity {
     @Column(name = "email", unique = true)
     private String email;
 
+    protected MemberEntity() {
+    }
+
     public MemberEntity(final Long id,
                         final String name,
                         final String email) {
