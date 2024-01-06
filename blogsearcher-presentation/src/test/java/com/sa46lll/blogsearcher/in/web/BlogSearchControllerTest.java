@@ -3,7 +3,6 @@ package com.sa46lll.blogsearcher.in.web;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import com.sa46lll.blogsearcher.domain.Post;
 import com.sa46lll.blogsearcher.dto.GetBlogSearchDto;
 import com.sa46lll.blogsearcher.dto.GetBlogSearchResponse;
 import com.sa46lll.blogsearcher.dto.PageQuery;
@@ -34,11 +33,11 @@ class BlogSearchControllerTest {
 
     @Test
     void 키워드로_블로그를_검색한다() throws Exception {
-        GetBlogSearchDto getBlogSearchDto = new GetBlogSearchDto("keyword", 1L);
+        GetBlogSearchDto getBlogSearchDto = new GetBlogSearchDto("content", 1L);
         PageResponse<GetBlogSearchResponse> pageResponse = new PageResponse<>(
                 List.of(
                         new GetBlogSearchResponse(1L, "title", "content")),
-                1, 1, 1, 1, false);
+                1, 1, 1, 2, false);
 
         when(getBlogSearchUseCase.search(getBlogSearchDto, new PageQuery(1, 2)))
                 .thenReturn(pageResponse);

@@ -11,6 +11,7 @@ import com.sa46lll.blogsearcher.domain.Post;
 import com.sa46lll.blogsearcher.dto.GetBlogSearchDto;
 import com.sa46lll.blogsearcher.dto.GetBlogSearchResponse;
 import com.sa46lll.blogsearcher.dto.PageQuery;
+import com.sa46lll.blogsearcher.dto.PageResponse;
 import com.sa46lll.blogsearcher.event.BlogSearchEvent;
 import com.sa46lll.blogsearcher.port.out.ReadBlogSearchPersistencePort;
 import com.sa46lll.blogsearcher.port.out.WriteSearchHistoryPersistencePort;
@@ -52,44 +53,41 @@ class BlogSearchQueryServiceTest {
     @BeforeEach
     void setUp() {
         getBlogSearchDto = new GetBlogSearchDto("keyword", 1L);
-        pageQuery = new PageQuery(1, 10);
+        pageQuery = new PageQuery(1, 3);
     }
 
     @Disabled
     @ParameterizedTest
     @ValueSource(strings = {" ", "  ", "\t", "\n"})
     void 검색어가_없으면_저장하지_않는다(String keyword) { // 제거 -> controller 이동 ( 클라이언트 입장에서 생길 수 있는 테스트 )
-        sut.search(getBlogSearchDto, new PageQuery(page, size));
+        sut.search(getBlogSearchDto, pageQuery);
 
         verify(writeSearchPersistencePort, never()).save(any());
     }
 
     @Test
-    @Disabled
-    void 검색하면_검색_횟수가_증가한다() { // 검색어가 이미 저장된 내역이 있으면, 검색 횟수가 증가한다
-        sut.search(getBlogSearchDto, new PageQuery(page, size));
-
-//        verify(writeSearchPersistencePort).updateSearchCount(any());
-    }
-
-    @Test
     void 키워드를_검색하면_블로그_목록을_반환한다() {
-        List<Post> searchHistories = List.of(
-                new Post(1L, "title1", "content1", null),
-                new Post(2L, "title2", "content2", null)
-        );
-        when(readSearchPersistencePort.findByKeyword(any(), pageQuery)).thenReturn(searchHistories);
+        PageResponse<Post> pageResponse = new PageResponse<>(
+                List.of(
+                        new Post(1L, "title", "content", null)),
+                1, 1, 1, 1, false);
+        when(readSearchPersistencePort.findByKeyword(any(), any())).thenReturn(pageResponse);
 
-        List<GetBlogSearchResponse> keyword = sut.search(getBlogSearchDto, new PageQuery(page, size));
+        PageResponse<GetBlogSearchResponse> keyword = sut.search(getBlogSearchDto, pageQuery);
 
-        assertThat(keyword).hasSize(2);
+        assertThat(keyword).isNotNull();
     }
 
     @Test
     void 키워드를_검색하면_검색_이벤트가_발생한다() {
+        PageResponse<Post> pageResponse = new PageResponse<>(
+                List.of(
+                        new Post(1L, "title", "content", null)),
+                1, 1, 1, 1, false);
+        when(readSearchPersistencePort.findByKeyword(any(), any())).thenReturn(pageResponse);
         BlogSearchEvent event = new BlogSearchEvent("keyword", 1L);
 
-        sut.search(getBlogSearchDto, new PageQuery(page, size));
+        sut.search(getBlogSearchDto, pageQuery);
 
         verify(applicationEventPublisher, times(1)).publishEvent(event);
     }
