@@ -6,6 +6,10 @@ public class SearchKeyword {
     private String keyword;
     private int count;
 
+    public SearchKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
     public SearchKeyword(Long id, String keyword, int count) {
         this.id = id;
         this.keyword = keyword;
@@ -22,5 +26,9 @@ public class SearchKeyword {
 
     public int getCount() {
         return count;
+    }
+
+    public void incrementCount() {
+        this.count++;
     }
 }

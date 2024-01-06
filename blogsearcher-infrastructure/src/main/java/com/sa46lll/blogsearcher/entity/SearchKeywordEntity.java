@@ -21,4 +21,25 @@ public class SearchKeywordEntity {
 
     @Column(name = "search_count", nullable = false)
     private int count;
+
+    protected SearchKeywordEntity() {
+    }
+
+    public SearchKeywordEntity(final Long id, final String keyword, final int count) {
+        this.id = id;
+        this.keyword = keyword;
+        this.count = count;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public int getCount() {
+        return count;
+    }
 }
