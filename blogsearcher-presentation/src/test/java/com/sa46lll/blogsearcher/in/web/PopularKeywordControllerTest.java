@@ -3,9 +3,8 @@ package com.sa46lll.blogsearcher.in.web;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import com.sa46lll.blogsearcher.dto.GetBlogSearchDto;
-import com.sa46lll.blogsearcher.dto.GetBlogSearchResponse;
-import com.sa46lll.blogsearcher.port.in.GetBlogSearchUseCase;
+import com.sa46lll.blogsearcher.dto.GetPopularKeywordResponse;
+import com.sa46lll.blogsearcher.port.in.GetPopularKeywordsUseCase;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,30 +20,29 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class BlogSearchControllerTest {
+class PopularKeywordControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private GetBlogSearchUseCase getBlogSearchUseCase;
+    private GetPopularKeywordsUseCase getBlogSearchUseCase;
 
     @Test
-    void 키워드로_블로그를_검색한다() throws Exception {
-        GetBlogSearchDto getBlogSearchDto = new GetBlogSearchDto("keyword", 1L);
-        when(getBlogSearchUseCase.search(getBlogSearchDto))
+    void 인기_검색어_목록을_조회한다() throws Exception {
+        when(getBlogSearchUseCase.getPopularKeywords())
                 .thenReturn(List.of(
-                        new GetBlogSearchResponse(1L, "title", "keyword")
+                        new GetPopularKeywordResponse("keyword3", 3),
+                        new GetPopularKeywordResponse("keyword2", 2),
+                        new GetPopularKeywordResponse("keyword1", 1)
                 ));
 
-        mockMvc.perform(get("/api/v1/search")
-                        .param("keyword", "keyword")
+        mockMvc.perform(get("/api/v1/search/popular")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("요청에 성공했습니다."))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].id").isNumber())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].title").isString())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].content").isString());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].keyword").isString())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].count").isNumber());
     }
 }
