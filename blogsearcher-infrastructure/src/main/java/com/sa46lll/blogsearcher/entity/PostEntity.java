@@ -32,6 +32,9 @@ public class PostEntity extends AuditEntity {
     @JoinColumn(name = "member_id")
     private MemberEntity member;
 
+    protected PostEntity() {
+    }
+
     public PostEntity(final String title,
                       final String content,
                       final MemberEntity member) {
