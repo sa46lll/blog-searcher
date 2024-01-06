@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import com.sa46lll.blogsearcher.domain.Post;
 import com.sa46lll.blogsearcher.dto.GetBlogSearchDto;
 import com.sa46lll.blogsearcher.dto.GetBlogSearchResponse;
+import com.sa46lll.blogsearcher.dto.PageQuery;
 import com.sa46lll.blogsearcher.event.BlogSearchEvent;
 import com.sa46lll.blogsearcher.port.out.ReadBlogSearchPersistencePort;
 import com.sa46lll.blogsearcher.port.out.WriteSearchHistoryPersistencePort;
@@ -43,19 +44,22 @@ class BlogSearchQueryServiceTest {
 
     private GetBlogSearchDto getBlogSearchDto;
 
+    private PageQuery pageQuery;
+
     BlogSearchQueryServiceTest() {
     }
 
     @BeforeEach
     void setUp() {
         getBlogSearchDto = new GetBlogSearchDto("keyword", 1L);
+        pageQuery = new PageQuery(1, 10);
     }
 
     @Disabled
     @ParameterizedTest
     @ValueSource(strings = {" ", "  ", "\t", "\n"})
     void 검색어가_없으면_저장하지_않는다(String keyword) { // 제거 -> controller 이동 ( 클라이언트 입장에서 생길 수 있는 테스트 )
-        sut.search(getBlogSearchDto);
+        sut.search(getBlogSearchDto, new PageQuery(page, size));
 
         verify(writeSearchPersistencePort, never()).save(any());
     }
@@ -63,7 +67,7 @@ class BlogSearchQueryServiceTest {
     @Test
     @Disabled
     void 검색하면_검색_횟수가_증가한다() { // 검색어가 이미 저장된 내역이 있으면, 검색 횟수가 증가한다
-        sut.search(getBlogSearchDto);
+        sut.search(getBlogSearchDto, new PageQuery(page, size));
 
 //        verify(writeSearchPersistencePort).updateSearchCount(any());
     }
@@ -74,9 +78,9 @@ class BlogSearchQueryServiceTest {
                 new Post(1L, "title1", "content1", null),
                 new Post(2L, "title2", "content2", null)
         );
-        when(readSearchPersistencePort.findByKeyword(any())).thenReturn(searchHistories);
+        when(readSearchPersistencePort.findByKeyword(any(), pageQuery)).thenReturn(searchHistories);
 
-        List<GetBlogSearchResponse> keyword = sut.search(getBlogSearchDto);
+        List<GetBlogSearchResponse> keyword = sut.search(getBlogSearchDto, new PageQuery(page, size));
 
         assertThat(keyword).hasSize(2);
     }
@@ -85,7 +89,7 @@ class BlogSearchQueryServiceTest {
     void 키워드를_검색하면_검색_이벤트가_발생한다() {
         BlogSearchEvent event = new BlogSearchEvent("keyword", 1L);
 
-        sut.search(getBlogSearchDto);
+        sut.search(getBlogSearchDto, new PageQuery(page, size));
 
         verify(applicationEventPublisher, times(1)).publishEvent(event);
     }

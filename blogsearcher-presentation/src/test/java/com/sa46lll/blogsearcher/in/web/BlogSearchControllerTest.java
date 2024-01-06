@@ -32,7 +32,7 @@ class BlogSearchControllerTest {
     @Test
     void 키워드로_블로그를_검색한다() throws Exception {
         GetBlogSearchDto getBlogSearchDto = new GetBlogSearchDto("keyword", 1L);
-        when(getBlogSearchUseCase.search(getBlogSearchDto))
+        when(getBlogSearchUseCase.search(getBlogSearchDto, new PageQuery(page, size)))
                 .thenReturn(List.of(
                         new GetBlogSearchResponse(1L, "title", "keyword")
                 ));

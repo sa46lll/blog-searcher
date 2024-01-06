@@ -1,10 +1,15 @@
 package com.sa46lll.blogsearcher.adapter;
 
 import com.sa46lll.blogsearcher.domain.Post;
+import com.sa46lll.blogsearcher.dto.PageQuery;
+import com.sa46lll.blogsearcher.dto.PageJpaDto;
+import com.sa46lll.blogsearcher.dto.PageResponse;
+import com.sa46lll.blogsearcher.mapper.PageMapper;
 import com.sa46lll.blogsearcher.mapper.PostMapper;
 import com.sa46lll.blogsearcher.port.out.ReadBlogSearchPersistencePort;
 import com.sa46lll.blogsearcher.repository.PostRepository;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,9 +22,11 @@ public class ReadBlogSearchPersistenceAdapter implements ReadBlogSearchPersisten
     }
 
     @Override
-    public List<Post> findByKeyword(String keyword) {
-        return postRepository.findByContentContaining(keyword).stream()
-                .map(PostMapper::toDomain)
-                .toList();
+    public PageResponse<Post> findByKeyword(final String keyword, final PageQuery pageQuery) {
+        PageRequest pageable = PageRequest.of(pageQuery.page(), pageQuery.size());
+        Page<Post> posts = postRepository.findByKeyword(keyword, pageable)
+                .map(PostMapper::toDomain);
+
+        return PageMapper.toResponse(PageJpaDto.of(posts));
     }
 }

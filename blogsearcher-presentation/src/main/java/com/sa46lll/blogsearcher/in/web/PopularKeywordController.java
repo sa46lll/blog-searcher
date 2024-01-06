@@ -1,6 +1,7 @@
 package com.sa46lll.blogsearcher.in.web;
 
 import com.sa46lll.blogsearcher.dto.ApiResponse;
+import com.sa46lll.blogsearcher.dto.GetPopularKeywordQuery;
 import com.sa46lll.blogsearcher.dto.GetPopularKeywordResponse;
 import com.sa46lll.blogsearcher.port.in.GetPopularKeywordsUseCase;
 import java.util.List;
