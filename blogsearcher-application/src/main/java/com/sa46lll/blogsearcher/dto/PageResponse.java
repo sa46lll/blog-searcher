@@ -11,4 +11,14 @@ public record PageResponse<T>(
         boolean hasNextPages
 ) {
 
+    public static <T> PageResponse<T> convert(final List<T> content, final PageResponse<?> page) {
+        return new PageResponse<>(
+                content,
+                page.totalElements(),
+                page.totalPages(),
+                page.pageNumber(),
+                page.numberOfElements(),
+                page.hasNextPages()
+        );
+    }
 }
