@@ -14,10 +14,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class SearchKeywordsQueryServiceTest {
+class PopularKeywordsQueryServiceTest {
 
     @InjectMocks
-    private SearchKeywordsQueryService sut;
+    private PopularKeywordsQueryService sut;
 
     @Mock
     private ReadSearchKeywordPersistencePort readSearchKeywordPersistencePort;
@@ -31,7 +31,7 @@ class SearchKeywordsQueryServiceTest {
         );
         when(readSearchKeywordPersistencePort.getPopularKeywords()).thenReturn(topKeywords);
 
-        List<GetPopularKeywordResponse> response = sut.getPopularKeywords();
+        List<GetPopularKeywordResponse> response = sut.get();
 
         assertEquals(3, response.size());
     }

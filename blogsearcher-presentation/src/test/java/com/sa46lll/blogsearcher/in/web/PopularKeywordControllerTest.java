@@ -30,7 +30,7 @@ class PopularKeywordControllerTest {
 
     @Test
     void 인기_검색어_목록을_조회한다() throws Exception {
-        when(getBlogSearchUseCase.getPopularKeywords())
+        when(getBlogSearchUseCase.get())
                 .thenReturn(List.of(
                         new GetPopularKeywordResponse("keyword3", 3),
                         new GetPopularKeywordResponse("keyword2", 2),
