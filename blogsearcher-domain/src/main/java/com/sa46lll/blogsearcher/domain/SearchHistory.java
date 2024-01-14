@@ -6,6 +6,14 @@ public class SearchHistory {
     private String keyword;
     private Long memberId;
 
+    public SearchHistory(final Long id,
+                         final String keyword,
+                         final Long memberId) {
+        this.id = id;
+        this.keyword = keyword;
+        this.memberId = memberId;
+    }
+
     public SearchHistory(final String keyword,
                          final Long memberId) {
         this.keyword = keyword;

@@ -14,4 +14,12 @@ public class SearchHistoryMapper {
                 searchHistory.getMemberId()
         );
     }
+
+    public static SearchHistory toDomain(final SearchHistoryEntity searchHistoryEntity) {
+        return new SearchHistory(
+                searchHistoryEntity.getId(),
+                searchHistoryEntity.getKeyword(),
+                searchHistoryEntity.getMemberId()
+        );
+    }
 }
